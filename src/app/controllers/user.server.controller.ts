@@ -10,17 +10,17 @@ const register = async (req: Request, res: Response):Promise<void> => {
             || !req.body.hasOwnProperty("lastName") || !req.body.hasOwnProperty("password")) {
             res.status(400).send("Bad Request - Parameters missing from body");
         } else {
-            // if(!validateEmail(req.body.email)) {
-            //     res.status(400).send("Bad Request - Email is not formatted correctly");
-            //     return
-            // }
+            if(!validateEmail(req.body.email)) {
+                res.status(400).send("Bad Request - Email is not formatted correctly");
+                return
+            }
             const checkEmail = await users.readByEmail(req.body.email);
-            if (checkEmail.length === 0){
-                res.status(400).send("Bad Request - Email in use");
+            if (checkEmail.length !== 0){
+                res.status(400).send({"Bad Request - Email in use": checkEmail[0]});
                 return
             }
             const result = await users.insert(req.body.email, req.body.firstName, req.body.lastName, req.body.password);
-            res.status(201).send({"user_id": result.insertId});
+            res.status(201).send({"userId" : result.insertId});
         }
     } catch (err) {
         res.status(500).send("Internal Server Error");
@@ -45,9 +45,9 @@ const update = async (req:any, res:any) : Promise<any> => {
 
 // helper functions
 
-// const validateEmail = (email: string) => {
-//     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-//     return (email.match(validRegex));
-// }
+const validateEmail = (email: string) => {
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    return (email.match(validRegex));
+}
 
 export{ register, login, logout, retrieve, update }

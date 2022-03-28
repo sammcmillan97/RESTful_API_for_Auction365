@@ -1,6 +1,7 @@
 import {Express} from "express";
-import * as users from '../controllers/user.server.controller';
 import {rootUrl} from "./base.routes";
+
+import * as users from '../controllers/user.server.controller';
 
 module.exports = (app: Express) => {
     app.route(rootUrl + '/users/register' )

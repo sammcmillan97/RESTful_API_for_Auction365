@@ -5,7 +5,7 @@ import {ResultSetHeader} from "mysql2";
 const insert = async (email: string, firstName: string, lastName: string, password: string) : Promise<ResultSetHeader> => {
     Logger.info('Adding user to the database');
     const conn = await getPool().getConnection();
-    const query = 'insert into users (email, first_name, last_name, password) values (?, ?, ?, ?)';
+    const query = 'insert into user (email, first_name, last_name, password) values (?, ?, ?, ?)';
     const [ result ] = await conn.query( query, [email, firstName, lastName, password] );
     conn.release();
     return result
@@ -22,8 +22,9 @@ const alter = async () : Promise<any> => {
 const readByEmail = async (email: string) : Promise<User[]> => {
     Logger.info('Checking database for an existing email');
     const conn = await getPool().getConnection();
-    const query = 'select * from users where email = ?';
+    const query = 'select * from user where email = ?'
     const [ rows ] = await conn.query(query, [ email ] );
+    Logger.info("reached");
     conn.release();
     return rows;
 }
