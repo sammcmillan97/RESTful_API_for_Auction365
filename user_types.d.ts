@@ -2,15 +2,15 @@ type User = {
     /**
      * User id as defined by the database
      */
-    user_id: number,
+    id: number,
     /**
      * Users first name
      */
-    firstName: string
+    first_name: string
     /**
      * Users last name
      */
-    lastName: string
+    last_name: string
     /**
      * Users email
      */

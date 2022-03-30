@@ -11,12 +11,23 @@ const insert = async (email: string, firstName: string, lastName: string, passwo
     return result
 };
 
-const read = async () : Promise<any> => {
-    return null;
+const read = async (id: number) : Promise<User[]> => {
+    Logger.info('Reading user from the database');
+    Logger.info(id);
+    const conn = await getPool().getConnection();
+    const query = 'select * from user where id = ?'
+    const [ result ] = await conn.query(query, id);
+    conn.release();
+    return result;
 }
 
-const alter = async () : Promise<any> => {
-    return null;
+const alter = async (query: string) : Promise<ResultSetHeader> => {
+    Logger.info("Altering user in the database");
+    Logger.info(query);
+    const conn = await getPool().getConnection();
+    const [ result ] = await conn.query(query);
+    return result;
+
 }
 
 const readByEmail = async (email: string) : Promise<User[]> => {
@@ -24,9 +35,17 @@ const readByEmail = async (email: string) : Promise<User[]> => {
     const conn = await getPool().getConnection();
     const query = 'select * from user where email = ?'
     const [ rows ] = await conn.query(query, [ email ] );
-    Logger.info("reached");
     conn.release();
     return rows;
 }
 
-export{ insert, read, alter, readByEmail }
+const readyByEmailAndPassword = async (email: string, password: string) : Promise<User[]> => {
+    Logger.info('Checking database for correct password and email');
+    const conn = await getPool().getConnection();
+    const query = 'select * from user where email = ? and password = ?'
+    const [ rows ] = await conn.query(query, [ email, password ] );
+    conn.release();
+    return rows;
+}
+
+export{ insert, read, alter, readByEmail, readyByEmailAndPassword}
