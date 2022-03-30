@@ -2,7 +2,7 @@ type Auction = {
     /**
      * Auction ID
      */
-    id: number;
+    auctionId: number;
     /**
      * Auction Title
      */

@@ -71,18 +71,18 @@ const buildGetAuctionQuery = (requestQuery: any) : string => {
         } else {
             whereConditions += " and (";
         }
-        whereConditions += "sellerId = " + requestQuery.sellerId + ")";
+        whereConditions += "seller_id = " + requestQuery.sellerId + ")";
     }
-    if (requestQuery.hasOwnProperty("bidderId")) {
-        if(whereConditions.length === 0) {
-            whereConditions += " where (";
-        } else {
-            whereConditions += " and (";
-        }
-        whereConditions += "sellerId = " + requestQuery.bidderId + ")";
-    }
+    // if (requestQuery.hasOwnProperty("bidderId")) {
+    //     if(whereConditions.length === 0) {
+    //         whereConditions += " where (";
+    //     } else {
+    //         whereConditions += " and (";
+    //     }
+    //     whereConditions += "bidder_id = " + requestQuery.bidderId + ")";
+    // }
     // Sorting conditions
-    let sortCondition = "order by"
+    let sortCondition = " order by"
     if (requestQuery.hasOwnProperty("sortBy")) {
         if(requestQuery.sortBy === "ALPHABETICAL_ASC") {
             sortCondition += " title asc";
@@ -105,9 +105,11 @@ const buildGetAuctionQuery = (requestQuery: any) : string => {
     } else {
         sortCondition += " end_date desc";
     }
-    const mainQuery = "select * from auction" + whereConditions;
+    const mainQuery = "select auction.id as auctionId, title, category_id as categoryId, reserve, count(*) as numBids from auction left join auction_bid  on (auction.id = auction_id)" + whereConditions + sortCondition;
     Logger.info(mainQuery);
     return mainQuery;
 };
-
+// numBids = (select count(*) from auction right inner join auction_bid where auction.id = auction_bid.auction_id)
+// seller_id as sellerId, " +
+//         "first_name as sellerFirstName, last_name as sellerLastName,
 export {viewAuctions, addAuction, getAuction, changeAuction, deleteAuction, getAuctionCategories}
