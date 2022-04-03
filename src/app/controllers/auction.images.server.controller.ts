@@ -23,7 +23,6 @@ const getImage = async(req: Request, res: Response): Promise<any> => {
         const imagePathString  = photoFolder + imagePathObject[0].imageFilename;
         Logger.info(imagePathString);
         fs.readFile(imagePathString, (err, data) => {
-            Logger.http("reached");
             if (err) {
                 res.status(500).send("Internal Server Error");
             } else {
@@ -72,7 +71,7 @@ const postImage = async(req: Request, res: Response) : Promise<any> => {
         if (type === "image/png" || type === "image/jpeg" || type === "image/gif") {
             // Check image was attached
             if (Buffer.isBuffer(req.body)) {
-                let filename = "test_auction_" + auction[0].auctionId;
+                let filename = "auction_" + auction[0].auctionId;
                 if (type ==="image/png") {
                     filename += ".png";
                 }
@@ -82,14 +81,15 @@ const postImage = async(req: Request, res: Response) : Promise<any> => {
                 if (type === "image/gif") {
                     filename += ".gif";
                 }
-                await images.setImage(filename, auction[0].auctionId);
                 const filepath = photoFolder + filename;
+                filename = "'" + filename + "'";
                 Logger.info(filepath);
+                await images.setImage(filename, auction[0].auctionId.toString());
                 fs.writeFile(filepath, req.body, err => {
                     if (err) {
                         res.status(500).send("Internal Server Error");
                     } else {
-                        if (imagePathObject[0].imageFilename === null) {
+                        if (imagePathObject[0].imageFilename === null || imagePathObject[0].imageFilename === "") {
                             res.status(201).send();
                             return;
                         } else {
