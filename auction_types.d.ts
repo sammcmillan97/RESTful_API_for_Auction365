@@ -43,4 +43,8 @@ type Auction = {
      * Auction description
      */
     description: string;
+    /**
+     * File path string
+     */
+    imagePath: string;
 }

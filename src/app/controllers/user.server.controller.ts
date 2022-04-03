@@ -60,7 +60,6 @@ const logout = async (req:any, res:any) : Promise<any> => {
     Logger.http("Logging out user")
     try {
         const id = req.body.authenticatedUser.id;
-        Logger.http(id)
         await auth.removeToken(id);
         res.status(200).send("OK");
     } catch (err) {

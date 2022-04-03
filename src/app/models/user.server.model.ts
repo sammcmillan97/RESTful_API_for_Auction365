@@ -6,14 +6,13 @@ const insert = async (email: string, firstName: string, lastName: string, passwo
     Logger.info('Adding user to the database');
     const conn = await getPool().getConnection();
     const query = 'insert into user (email, first_name, last_name, password) values (?, ?, ?, ?)';
-    const [ result ] = await conn.query( query, [email, firstName, lastName, password] );
+    const [result] = await conn.query(query, [email, firstName, lastName, password]);
     conn.release();
-    return result
+    return result;
 };
 
 const read = async (id: number) : Promise<User[]> => {
     Logger.info('Reading user from the database');
-    Logger.info(id);
     const conn = await getPool().getConnection();
     const query = 'select * from user where id = ?'
     const [ result ] = await conn.query(query, id);
@@ -26,8 +25,8 @@ const alter = async (query: string) : Promise<ResultSetHeader> => {
     Logger.info(query);
     const conn = await getPool().getConnection();
     const [ result ] = await conn.query(query);
+    conn.release();
     return result;
-
 }
 
 const readByEmail = async (email: string) : Promise<User[]> => {

@@ -22,7 +22,7 @@ const loginRequired = async (req:Request, res:Response, next: () => Promise<any>
 }
 
 const findUserIdByToken = async (token:string) : Promise<User[]> =>  {
-    Logger.info("Getting User from the database");
+    Logger.info("Finding user by token in the database")
     const conn = await getPool().getConnection();
     const query ='select * from user where auth_token = ?';
     const [ rows ] = await conn.query(query, [ token ] );
