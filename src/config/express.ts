@@ -30,5 +30,6 @@ export default () => {
     require('../app/routes/auction.server.routes')(app);
     require('../app/routes/bids.server.routes')(app);
     require('../app/routes/auction.images.server.routes')(app);
+    require('../app/routes/user.images.server.routes')(app);
     return app;
 };

@@ -49,4 +49,4 @@ const removeToken = async (userId: number) : Promise<ResultSetHeader> => {
 
 }
 
-export { loginRequired, addToken, removeToken }
+export { loginRequired, addToken, removeToken, findUserIdByToken}
