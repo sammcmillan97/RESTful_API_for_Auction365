@@ -21,7 +21,6 @@ const getImage = async(req: Request, res: Response): Promise<any> => {
             return;
         }
         const imagePathString  = photoFolder + imagePathObject[0].imageFilename;
-        Logger.info(imagePathString);
         fs.readFile(imagePathString, (err, data) => {
             if (err) {
                 res.status(500).send("Internal Server Error");
@@ -83,7 +82,6 @@ const postImage = async(req: Request, res: Response) : Promise<any> => {
                 }
                 const filepath = photoFolder + filename;
                 filename = "'" + filename + "'";
-                Logger.info(filepath);
                 await images.setImage(filename, auction[0].auctionId.toString());
                 fs.writeFile(filepath, req.body, err => {
                     if (err) {

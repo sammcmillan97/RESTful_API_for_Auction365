@@ -4,7 +4,7 @@ import * as auctions from '../models/auction.server.model';
 import Logger from "../../config/logger"
 
 const getBids = async (req: Request, res: Response):Promise<void> => {
-    Logger.http("Getting on bids")
+    Logger.http("Getting all bids from auction")
     try {
         // Check auction exists
         const auction = await auctions.getAuction(req.params.id);
@@ -20,10 +20,9 @@ const getBids = async (req: Request, res: Response):Promise<void> => {
 };
 
 const placeBid = async (req: Request, res: Response):Promise<void> => {
-    Logger.http("Placing bid")
+    Logger.http("Placing bid on auction")
     try {
         // Check Auction exists
-        Logger.info(req.params.id);
         const auction = await auctions.getAuction(req.params.id);
         if(auction.length === 0) {
             res.status(404).send("Not Found - Auction does not exist")
@@ -41,7 +40,7 @@ const placeBid = async (req: Request, res: Response):Promise<void> => {
         }
         // Create Bid
         await bids.insert(parseInt(req.params.id, 10), parseInt(req.body.authenticatedUser.id,10), parseInt(req.body.amount,10));
-        res.status(201).send("Created");
+        res.status(201).send("Created - Created bid");
     } catch (err) {
         res.status(500).send("Internal Server Error");
     }

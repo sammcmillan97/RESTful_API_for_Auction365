@@ -67,6 +67,7 @@ const addAuction = async (req: Request, res: Response):Promise<void> => {
 };
 
 const getAuction = async (req: Request, res: Response):Promise<void> => {
+    Logger.http("Getting auction from database");
     try {
         const result = await auctions.getAuction(req.params.id);
         if(result.length === 0){
@@ -81,6 +82,7 @@ const getAuction = async (req: Request, res: Response):Promise<void> => {
 };
 
 const changeAuction = async (req: Request, res: Response):Promise<void> => {
+   Logger.http("Altering auction in database")
     try {
         const auction = await auctions.getAuction(req.params.id);
         // Check if auction exists
@@ -99,7 +101,6 @@ const changeAuction = async (req: Request, res: Response):Promise<void> => {
                     return
                 }
             }
-            Logger.info("After cat id")
             // Check if a bid has been made
             if(auction[0].numBids !== 0) {
                 res.status(403).send("Forbidden - can't make change to an auction after a bid has been placed");
@@ -118,6 +119,7 @@ const changeAuction = async (req: Request, res: Response):Promise<void> => {
 };
 
 const deleteAuction = async (req: Request, res: Response):Promise<void> => {
+    Logger.http("Deleting auction in database")
     try {
         const auction = await auctions.getAuction(req.params.id);
         // Check if auction exists
@@ -145,6 +147,7 @@ const deleteAuction = async (req: Request, res: Response):Promise<void> => {
 };
 
 const getCategories = async (req: Request, res: Response):Promise<void> => {
+    Logger.http("Getting all categories from the database");
     try {
         const result = await category.getAll();
         res.status(200).send(result);
