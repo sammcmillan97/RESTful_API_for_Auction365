@@ -22,7 +22,6 @@ const read = async (id: number) : Promise<User[]> => {
 
 const alter = async (query: string) : Promise<ResultSetHeader> => {
     Logger.info("Altering user in the database");
-    Logger.info(query);
     const conn = await getPool().getConnection();
     const [ result ] = await conn.query(query);
     conn.release();

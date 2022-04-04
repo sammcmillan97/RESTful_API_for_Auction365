@@ -29,7 +29,6 @@ const insert = async (title: string, description: string, categoryId: string, en
     const conn = await getPool().getConnection();
     const query = 'insert into auction (title, description, category_id, end_date, reserve, seller_id) values (?, ?, ?, ?, ?, ?)'
     const [ result ] = await conn.query( query, [title, description, categoryId, endDate, reserve, sellerId] );
-    Logger.info("reached");
     conn.release();
     return result
 };

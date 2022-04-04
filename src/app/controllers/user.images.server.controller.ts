@@ -16,7 +16,6 @@ const getImage = async(req: Request, res: Response): Promise<any> => {
             return;
         }
         const imagePathObject = await images.getImage(parseInt(req.params.id, 10));
-        Logger.info("reached");
         // Check image path != NULL
         if (!imagePathObject[0].imageFilename) {
             res.status(404).send("Not Found - user does not have an image");

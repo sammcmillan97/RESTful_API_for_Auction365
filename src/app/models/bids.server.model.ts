@@ -15,9 +15,6 @@ const getAll = async(id: string) : Promise<Bid[]> => {
 const insert = async(auctionId: number, userId: number, amount: number)  => {
     Logger.info("Placing bid on auction(" + auctionId + ") from the database)");
     const conn = await getPool().getConnection();
-    Logger.info(auctionId);
-    Logger.info(userId);
-    Logger.info(amount);
     const query = "insert into auction_bid (auction_id, user_id, amount) values (?, ?, ?)";
     await conn.query(query, [auctionId, userId, amount]);
     conn.release();
