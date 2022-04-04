@@ -63,7 +63,7 @@ const postImage = async(req: Request, res: Response) : Promise<any> => {
             res.status(404).send("Not Found - Auction not found");
             return;
         }
-        // Check that the correct user is logged in
+        // Check that the correct user is making the request
         if (user[0].id.toString() !== auction[0].sellerId.toString()) {
             res.status(403).send("Forbidden - Can only post images to your own auctions");
             return;

@@ -3,6 +3,7 @@ import Logger from "../../config/logger";
 import {getPool} from "../../config/db";
 import {ResultSetHeader} from "mysql2";
 
+
 const loginRequired = async (req:Request, res:Response, next: () => Promise<any>) => {
     const token = req.header('X-Authorization');
 

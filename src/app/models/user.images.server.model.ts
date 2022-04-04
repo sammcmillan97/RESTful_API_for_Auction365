@@ -10,6 +10,14 @@ const getImage = async (id: number) : Promise<Image[]> => {
     return result;
 }
 
+const setImage = async(filename: string, id: string) => {
+    Logger.info("Setting image in the database");
+    const conn = await getPool().getConnection();
+    const query = 'update user set image_filename = ? where id = ?'
+    await conn.query(query, [ filename, id.toString() ] );
+    conn.release();
+}
+
 const removeImage = async(id: number) => {
     Logger.info("deleting user image from the database");
     const conn = await getPool().getConnection();
@@ -18,4 +26,4 @@ const removeImage = async(id: number) => {
     conn.release();
 }
 
-export {getImage, removeImage}
+export {getImage, removeImage, setImage}

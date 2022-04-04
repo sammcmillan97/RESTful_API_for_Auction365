@@ -1,6 +1,5 @@
 import { getPool } from "../../config/db";
 import Logger from "../../config/logger";
-import {ResultSetHeader} from "mysql2";
 
 const getImage = async (id: number) : Promise<Image[]> => {
     Logger.info("Getting auction image path from the database");
